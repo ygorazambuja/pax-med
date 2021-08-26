@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import MyDocument from './Document'
 
 import { estados } from './brStates.json'
+import { transformNumberToBrazilianCoin } from './utils/moneyFormatter'
 
 function App() {
   const [contractorName, setContractorName] = useState('')
@@ -356,7 +357,7 @@ function App() {
               associate={associate}
               death={death}
               servicesDescription={servicesDescription}
-              servicesValue={servicesValue}
+              servicesValue={transformNumberToBrazilianCoin(servicesValue)}
               servicesDate={servicesDate}
             />
           </PDFViewer>
