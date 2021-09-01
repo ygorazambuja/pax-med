@@ -25,7 +25,8 @@ const Header = () => (
     style={{
       flexDirection: 'row',
       justifyContent: 'space-around',
-      paddingTop: '35px'
+      alignItems: 'center',
+      paddingTop: '15px'
     }}
   >
     <View style={{ flexDirection: 'column' }}>
