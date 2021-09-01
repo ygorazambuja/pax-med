@@ -1,5 +1,12 @@
 import React from 'react'
-import { Page, Text, View, Document } from '@react-pdf/renderer'
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  Image,
+  StyleSheet
+} from '@react-pdf/renderer'
 
 export const MyDocument = ({ ...props }) => (
   <Document>
@@ -8,7 +15,7 @@ export const MyDocument = ({ ...props }) => (
       <Body {...props} />
       <DeceasedData {...props} />
       <ServiceDescription {...props} />
-      <Footer />
+      <Footer {...props} />
     </Page>
   </Document>
 )
@@ -22,7 +29,7 @@ const Header = () => (
     }}
   >
     <View style={{ flexDirection: 'column' }}>
-      <Text>Logo</Text>
+      <Image src="https://i.imgur.com/2Ra1afy.jpg" style={styles.image} />
     </View>
     <View
       style={{
@@ -168,8 +175,7 @@ const ServiceDescription = ({ ...props }) => (
 const Footer = ({ ...props }) => (
   <View style={{ marginHorizontal: '25px' }}>
     <Text style={{ fontSize: '10px' }}>
-      {props.actualDate}
-      Pedro Gomes - MS, 25 de Agosto de 2021
+      Pedro Gomes - MS, {props.servicesDate}
     </Text>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
       <View
@@ -222,3 +228,11 @@ const Footer = ({ ...props }) => (
 )
 
 export default MyDocument
+
+const styles = StyleSheet.create({
+  image: {
+    objectFit: 'cover',
+    width: '200px',
+    height: '100px'
+  }
+})

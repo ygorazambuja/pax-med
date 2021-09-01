@@ -4,6 +4,7 @@ import MyDocument from './Document'
 
 import { estados } from './brStates.json'
 import { transformNumberToBrazilianCoin } from './utils/moneyFormatter'
+import ReactInputMask from 'react-input-mask'
 
 function App() {
   const [contractorName, setContractorName] = useState('')
@@ -59,10 +60,12 @@ function App() {
 
     setServicesDescription('')
     setServicesValue('')
-    setServicesDate('')
+    setServicesDate(new Date())
   }
 
-  const downloadForm = () => {}
+  const downloadForm = () => {
+    console.log(servicesDate)
+  }
 
   return (
     <div className="container-fluid" style={{ height: '100vh' }}>
@@ -163,7 +166,7 @@ function App() {
               <datalist id="cities">
                 {isAValidState() &&
                   getOnlyCitiesForTheSelectedStates().map(cidade => (
-                    <option key={cidade} value={cidade.toLowerCase()}>
+                    <option key={cidade} value={cidade}>
                       {cidade}
                     </option>
                   ))}
@@ -315,10 +318,11 @@ function App() {
             </div>
             <div className="col">
               <div className="form-floating my-1">
-                <input
+                <ReactInputMask
                   className="form-control my-1"
                   placeholder="Data Atual"
-                  type="number"
+                  type="text"
+                  mask={'99/99/9999'}
                   value={servicesDate}
                   onChange={e => setServicesDate(e.target.value)}
                 />
