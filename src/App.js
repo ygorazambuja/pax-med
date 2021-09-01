@@ -1,4 +1,4 @@
-import { PDFViewer } from '@react-pdf/renderer'
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import React, { useState } from 'react'
 import MyDocument from './Document'
 
@@ -15,7 +15,6 @@ function App() {
   const [contractorRG, setContractorRG] = useState('')
   const [contractorPhone, setContractorPhone] = useState('')
   const [parentDegree, setParentDegree] = useState('')
-  const [profession, setProfession] = useState('')
   const [death, setDeath] = useState('')
 
   const [deceasedName, setDeceasedName] = useState('')
@@ -55,7 +54,6 @@ function App() {
     setGender('')
     setDeathDate('')
     setAssociate('')
-    setProfession('')
     setDeath('')
 
     setServicesDescription('')
@@ -195,17 +193,6 @@ function App() {
                 <label>Grau de Parentesco</label>
               </div>
             </div>
-            <div className="col">
-              <div className="form-floating my-1">
-                <input
-                  className="form-control my-1"
-                  value={profession}
-                  placeholder="Profissão"
-                  onChange={e => setProfession(e.target.value)}
-                />
-                <label>Profissão</label>
-              </div>
-            </div>
           </div>
 
           <h5 className="my-2">Dados do Falecido</h5>
@@ -337,9 +324,34 @@ function App() {
               </button>
             </div>
             <div className="d-grid col-sm-12 col-md-6 my-2 mx-auto">
-              <button className="btn btn-success" onClick={downloadForm}>
+              <PDFDownloadLink
+                document={
+                  <MyDocument
+                    contractorName={contractorName}
+                    contractorCpf={contractorCpf}
+                    contractorAddress={contractorAddress}
+                    parentDegree={parentDegree}
+                    contractorRG={contractorRG}
+                    contractorCity={contractorCity}
+                    contractorState={contractorState}
+                    contractorPhone={contractorPhone}
+                    deceasedName={deceasedName}
+                    placeOfDeath={placeOfDeath}
+                    gender={gender}
+                    deathDate={deathDate}
+                    associate={associate}
+                    death={death}
+                    servicesDescription={servicesDescription}
+                    servicesValue={transformNumberToBrazilianCoin(
+                      servicesValue
+                    )}
+                  />
+                }
+                className="btn btn-success"
+                onClick={downloadForm}
+              >
                 Baixar Arquivo
-              </button>
+              </PDFDownloadLink>
             </div>
           </div>
         </div>
