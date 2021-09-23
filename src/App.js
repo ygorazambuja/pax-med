@@ -1,10 +1,14 @@
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import React, { useState } from 'react'
-import MyDocument from './Document'
+import MyDocument from './document'
 
-import { estados } from './brStates.json'
+import { estados } from './db/brStates.json'
 import { transformNumberToBrazilianCoin } from './utils/moneyFormatter'
 import ReactInputMask from 'react-input-mask'
+import {
+  getOnlyCitiesForTheSelectedStates,
+  isAValidState
+} from './utils/states'
 
 function App() {
   const [contractorName, setContractorName] = useState('')
@@ -27,17 +31,27 @@ function App() {
   const [servicesValue, setServicesValue] = useState('')
   const [servicesDate, setServicesDate] = useState('')
 
-  const isAValidState = () =>
-    estados.filter(estado => estado.nome === contractorState)[0]
-
-  const getOnlyCitiesForTheSelectedStates = () => {
-    if (!isAValidState) return []
-    if (!contractorState) {
-      return []
-    }
-    const cidades = estados.filter(estado => estado.nome === contractorState)[0]
-      ?.cidades
-    return cidades
+  const returnDocument = () => {
+    return (
+      <MyDocument
+        contractorName={contractorName}
+        contractorCpf={contractorCpf}
+        contractorAddress={contractorAddress}
+        parentDegree={parentDegree}
+        contractorRG={contractorRG}
+        contractorCity={contractorCity}
+        contractorState={contractorState}
+        contractorPhone={contractorPhone}
+        deceasedName={deceasedName}
+        placeOfDeath={placeOfDeath}
+        gender={gender}
+        deathDate={deathDate}
+        associate={associate}
+        death={death}
+        servicesDescription={servicesDescription}
+        servicesValue={transformNumberToBrazilianCoin(servicesValue)}
+      />
+    )
   }
 
   const cleanupForm = () => {
@@ -59,10 +73,6 @@ function App() {
     setServicesDescription('')
     setServicesValue('')
     setServicesDate(new Date())
-  }
-
-  const downloadForm = () => {
-    console.log(servicesDate)
   }
 
   return (
@@ -151,7 +161,7 @@ function App() {
             <div className="col">
               <div className="form-floating my-1">
                 <input
-                  disabled={!isAValidState()}
+                  disabled={!isAValidState(contractorState)}
                   className="form-control my-1"
                   placeholder="Cidade"
                   value={contractorCity}
@@ -162,12 +172,14 @@ function App() {
               </div>
 
               <datalist id="cities">
-                {isAValidState() &&
-                  getOnlyCitiesForTheSelectedStates().map(cidade => (
-                    <option key={cidade} value={cidade}>
-                      {cidade}
-                    </option>
-                  ))}
+                {isAValidState(contractorState) &&
+                  getOnlyCitiesForTheSelectedStates(contractorState).map(
+                    cidade => (
+                      <option key={cidade} value={cidade}>
+                        {cidade}
+                      </option>
+                    )
+                  )}
               </datalist>
             </div>
           </div>
@@ -181,7 +193,7 @@ function App() {
                   value={parentDegree}
                   onChange={e => setParentDegree(e.target.value)}
                 >
-                  <option value=""></option>
+                  <option value="" />
 
                   <option value="Pai">Pai</option>
                   <option value="Mãe">Mãe</option>
@@ -325,30 +337,8 @@ function App() {
             </div>
             <div className="d-grid col-sm-12 col-md-6 my-2 mx-auto">
               <PDFDownloadLink
-                document={
-                  <MyDocument
-                    contractorName={contractorName}
-                    contractorCpf={contractorCpf}
-                    contractorAddress={contractorAddress}
-                    parentDegree={parentDegree}
-                    contractorRG={contractorRG}
-                    contractorCity={contractorCity}
-                    contractorState={contractorState}
-                    contractorPhone={contractorPhone}
-                    deceasedName={deceasedName}
-                    placeOfDeath={placeOfDeath}
-                    gender={gender}
-                    deathDate={deathDate}
-                    associate={associate}
-                    death={death}
-                    servicesDescription={servicesDescription}
-                    servicesValue={transformNumberToBrazilianCoin(
-                      servicesValue
-                    )}
-                  />
-                }
+                document={returnDocument()}
                 className="btn btn-success"
-                onClick={downloadForm}
               >
                 Baixar Arquivo
               </PDFDownloadLink>
@@ -357,25 +347,7 @@ function App() {
         </div>
         <div className="col sm-12 md-6">
           <PDFViewer style={{ height: '95vh', width: '100%' }}>
-            <MyDocument
-              contractorName={contractorName}
-              contractorCpf={contractorCpf}
-              contractorAddress={contractorAddress}
-              parentDegree={parentDegree}
-              contractorRG={contractorRG}
-              contractorCity={contractorCity}
-              contractorState={contractorState}
-              contractorPhone={contractorPhone}
-              deceasedName={deceasedName}
-              placeOfDeath={placeOfDeath}
-              gender={gender}
-              deathDate={deathDate}
-              associate={associate}
-              death={death}
-              servicesDescription={servicesDescription}
-              servicesValue={transformNumberToBrazilianCoin(servicesValue)}
-              servicesDate={servicesDate}
-            />
+            {returnDocument()}
           </PDFViewer>
         </div>
       </div>
