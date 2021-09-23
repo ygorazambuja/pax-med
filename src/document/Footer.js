@@ -1,11 +1,9 @@
 import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
 
-export const Footer = ({ ...props }) => (
+export const Footer = ({ servicesDate }) => (
   <View style={{ marginHorizontal: '25px' }}>
-    <Text style={{ fontSize: '10px' }}>
-      Pedro Gomes - MS, {props.servicesDate}
-    </Text>
+    <Text style={{ fontSize: '10px' }}>Pedro Gomes - MS, {servicesDate}</Text>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
       <View
         style={{
