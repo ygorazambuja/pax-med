@@ -422,9 +422,12 @@ function App() {
             <div className="d-grid col-sm-12 col-md-6 my-2 mx-auto">
               <PDFDownloadLink
                 document={returnDocument()}
+                fileName="somename.pdf"
                 className="btn btn-success"
               >
-                Baixar Arquivo
+                {({ blob, url, loading, error }) =>
+                  loading ? 'Carregando Documento...' : 'Baixar Documento'
+                }
               </PDFDownloadLink>
             </div>
           </Row>
