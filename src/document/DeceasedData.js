@@ -32,7 +32,7 @@ export const DeceasedData = ({ ...props }) => (
       </View>
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <View style={{ flexDirection: 'row' }}>
-          <Text>Data: {props.contractorRG}</Text>
+          <Text>Data: {props.deathDate}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           <Text>Associado: {props.associate}</Text>
